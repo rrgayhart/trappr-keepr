@@ -1,6 +1,7 @@
 {
   "env": {
-    "browser": true
+    "browser": true,
+    "mocha": true
     },
   "rules": {
     "strict": 0,
@@ -36,7 +37,6 @@
     "use-isnan": 2,
     "valid-jsdoc": 2,
     "valid-typeof": 2,
-    "consistent-return": 2,
     "curly": [2, "multi-line"],
     "default-case": 2,
     "dot-notation": [2, {
