@@ -1,0 +1,67 @@
+*, *:after, *:before {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #eeeeee;
+}
+
+img {
+  max-width: 100%;
+}
+
+#image-grid-container {
+  margin: 0px auto;
+  max-width: 1300px;
+  overflow: hidden;
+  padding: 10px 20px;
+}
+
+.image-thumbnail-container {
+  border: 1px solid #eeeeee;
+  float: left;
+  padding: 20px;
+  text-align: center;
+  width: 25%;
+}
+
+@media screen and (max-width:1000px) {
+  .image-thumbnail-container {
+    width: 33.3%;
+  }
+}
+
+@media screen and (max-width:800px) {
+  .image-thumbnail-container{
+    width: 50%;
+  }
+}
+
+@media screen and (max-width:400px) {
+  .image-thumbnail-container {
+    padding: 10px;
+    width: 100%;
+  }
+}
+
+.image-thumbnail-container[data-color='1'] {
+  background-color: #443642;
+}
+
+.image-thumbnail-container[data-color='2'] {
+  background-color: #E01765;
+}
+
+.image-thumbnail-container[data-color='3'] {
+  background-color: #70CADB;
+}
+
+.image-thumbnail-container[data-color='4'] {
+  background-color: #3EB890;
+}
+
+/*https://timkadlec.com/2012/10/ie10-snap-mode-and-responsive-design/*/
+@-ms-viewport {
+  width: device-width;
+}
