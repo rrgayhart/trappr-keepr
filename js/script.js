@@ -1,4 +1,6 @@
 (function () {
+  if (window.trapprKeeprTestExport) { return exportTestedFunction(); }
+
   autoGenerateTestData();
 
   function imageThumbnailTemplate(alt, url, color) {
@@ -24,5 +26,11 @@
       var image = imageThumbnailTemplate('placeholder image', url, color);
       prependThumbnailContainer(image);
     }
+  }
+
+  function exportTestedFunction() {
+    window.trapprKeeprTestExport = {
+      imageThumbnailTemplate: imageThumbnailTemplate
+    };
   }
 })();
