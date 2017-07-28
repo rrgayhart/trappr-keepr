@@ -1,8 +1,10 @@
 # Trappr Keepr
 
-A code challenge for Slack
+A code challenge for Slack *** Due Tuesday ***
 
-*** Due Tuesday ***
+## Testing
+
+Open the html page in `test/test.html` to see unit tests
 
 ## Requirements
 
