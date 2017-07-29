@@ -7,10 +7,6 @@ body {
   background-color: #eeeeee;
 }
 
-img {
-  max-width: 100%;
-}
-
 #image-grid-container {
   margin: 0px auto;
   max-width: 1300px;
@@ -22,13 +18,17 @@ img {
   border: 1px solid #eeeeee;
   float: left;
   line-height: 200px;
+  max-height: 240px;
   padding: 20px;
   text-align: center;
   width: 25%;
 }
 
 .image-thumbnail-container img {
+  max-height: 200px;
+  max-width: 100%;
   vertical-align: middle;
+  overflow: hidden;
 }
 
 @media screen and (max-width:800px) {
