@@ -1,13 +1,41 @@
 (function () {
   if (window.trapprKeeprTestExport) { return exportTestedFunction(); }
 
-  populateThumbnails(sampleData)
+  pullData();
+
+  function pullData() {
+    var endpoint = 'https://api.giphy.com/v1/gifs/trending?api_key=b2022454c8fb4b95affb8f7d8513156e&limit=52&rating=PG';
+    var xhr = new XMLHttpRequest();
+
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+        var responseBody = JSON.parse(xhr.response);
+        populateThumbnails(responseBody);
+      }
+    };
+
+    xhr.ontimeout = function (e) {
+      fallbackToSampleData(e);
+    };
+
+    xhr.onerror = function (e) {
+      fallbackToSampleData(e);
+    };
+
+    xhr.open('GET', endpoint, true);
+    xhr.send();
+  }
+
+  function fallbackToSampleData(e) {
+    console.error(e); // eslint-disable-line no-console
+    populateThumbnails(window.sampleData);
+  }
 
   function populateThumbnails(responseBody) {
-     responseBody.data.forEach(function(imgData){
-        var thumbnailEl = prepareThumbnailData(imgData);
-        prependThumbnailContainer(thumbnailEl)
-     })
+    responseBody.data.forEach(function (imgData) {
+      var thumbnailEl = prepareThumbnailData(imgData);
+      prependThumbnailContainer(thumbnailEl);
+    });
   }
 
   function prepareThumbnailData(imgData) {
@@ -34,7 +62,6 @@
 
   function formatAlt(slug) {
     var splitSlug = slug.split(/-[^-]*$/);
-    var slugText = splitSlug[0]
     var formattedAltText = 'Thumbnail: ' + splitSlug[0];
     return formattedAltText;
   }
