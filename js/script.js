@@ -1,7 +1,21 @@
 (function () {
   if (window.trapprKeeprTestExport) { return exportTestedFunction(); }
 
-  autoGenerateTestData();
+  populateThumbnails(sampleData)
+
+  function populateThumbnails(responseBody) {
+     responseBody.data.forEach(function(imgData){
+        var thumbnailEl = prepareThumbnailData(imgData);
+        prependThumbnailContainer(thumbnailEl)
+     })
+  }
+
+  function prepareThumbnailData(imgData) {
+    var colorCode = Math.floor(Math.random() * (4 - 1 + 1)) + 1;
+    var stillUrl = imgData.images.fixed_height_still.url;
+    var caption = formatAlt(imgData.slug);
+    return imageThumbnailTemplate(caption, stillUrl, colorCode);
+  }
 
   function imageThumbnailTemplate(alt, url, color) {
     var classList = 'class=\"image-thumbnail-container\"';
@@ -18,19 +32,15 @@
     grid.insertAdjacentHTML('afterbegin', htmlString);
   }
 
-  function autoGenerateTestData() {
-    for (var i = 0; i <= 11; i++) {
-      var url = 'http://placehold.it/200x200';
-      // if (i === 4) { url = 'http://placehold.it/200x200'; } Use to test unusual sizes
-      var color = Math.floor(Math.random() * (4 - 1 + 1)) + 1;
-      var image = imageThumbnailTemplate('placeholder image', url, color);
-      prependThumbnailContainer(image);
-    }
+  function formatAlt(slug) {
+    var splitSlug = slug.split(/-[^-]*$/);
+    var formattedAltText = 'Thumbnail of trending gif: ' + splitSlug[0];
+    return formattedAltText;
   }
 
   function exportTestedFunction() {
     window.trapprKeeprTestExport = {
-      imageThumbnailTemplate: imageThumbnailTemplate
+      prepareThumbnailData: prepareThumbnailData
     };
   }
 })();
