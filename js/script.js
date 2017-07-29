@@ -32,10 +32,11 @@
   }
 
   function populateThumbnails(responseBody) {
-    responseBody.data.forEach(function (imgData) {
-      var thumbnailEl = prepareThumbnailData(imgData);
+    var data = responseBody.data;
+    for (var i = 0; i < data.length; ++i) {
+      var thumbnailEl = prepareThumbnailData(data[i]);
       prependThumbnailContainer(thumbnailEl);
-    });
+    }
   }
 
   function prepareThumbnailData(imgData) {
