@@ -1,7 +1,50 @@
 (function () {
   if (window.trapprKeeprTestExport) { return exportTestedFunction(); }
 
-  autoGenerateTestData();
+  pullData();
+
+  function pullData() {
+    var endpoint = 'https://api.giphy.com/v1/gifs/trending?api_key=b2022454c8fb4b95affb8f7d8513156e&limit=52&rating=PG';
+    var xhr = new XMLHttpRequest();
+
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+        var responseBody = JSON.parse(xhr.response);
+        populateThumbnails(responseBody);
+      }
+    };
+
+    xhr.ontimeout = function (e) {
+      fallbackToSampleData(e);
+    };
+
+    xhr.onerror = function (e) {
+      fallbackToSampleData(e);
+    };
+
+    xhr.open('GET', endpoint, true);
+    xhr.send();
+  }
+
+  function fallbackToSampleData(e) {
+    console.error(e); // eslint-disable-line no-console
+    populateThumbnails(window.sampleData);
+  }
+
+  function populateThumbnails(responseBody) {
+    var data = responseBody.data;
+    for (var i = 0; i < data.length; ++i) {
+      var thumbnailEl = prepareThumbnailData(data[i]);
+      prependThumbnailContainer(thumbnailEl);
+    }
+  }
+
+  function prepareThumbnailData(imgData) {
+    var colorCode = Math.floor(Math.random() * (4 - 1 + 1)) + 1;
+    var stillUrl = imgData.images.fixed_height_still.url;
+    var caption = formatAlt(imgData.slug);
+    return imageThumbnailTemplate(caption, stillUrl, colorCode);
+  }
 
   function imageThumbnailTemplate(alt, url, color) {
     var classList = 'class=\"image-thumbnail-container\"';
@@ -18,19 +61,15 @@
     grid.insertAdjacentHTML('afterbegin', htmlString);
   }
 
-  function autoGenerateTestData() {
-    for (var i = 0; i <= 11; i++) {
-      var url = 'http://placehold.it/200x200';
-      // if (i === 4) { url = 'http://placehold.it/200x200'; } Use to test unusual sizes
-      var color = Math.floor(Math.random() * (4 - 1 + 1)) + 1;
-      var image = imageThumbnailTemplate('placeholder image', url, color);
-      prependThumbnailContainer(image);
-    }
+  function formatAlt(slug) {
+    var splitSlug = slug.split(/-[^-]*$/);
+    var formattedAltText = 'Thumbnail: ' + splitSlug[0];
+    return formattedAltText;
   }
 
   function exportTestedFunction() {
     window.trapprKeeprTestExport = {
-      imageThumbnailTemplate: imageThumbnailTemplate
+      prepareThumbnailData: prepareThumbnailData
     };
   }
 })();

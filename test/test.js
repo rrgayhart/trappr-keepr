@@ -3,17 +3,21 @@
 describe('script', function () {
   var expect = chai.expect;
   var testFunctions = trapprKeeprTestExport;
-  var imageThumbnailTemplate = testFunctions.imageThumbnailTemplate;
+  var prepareThumbnailData = testFunctions.prepareThumbnailData;
 
-  describe('imageThumbnailTemplate', function () {
+  describe('prepareThumbnailData', function () {
     before(function () {
-      this.alt = 'Fancy Image';
-      this.url = 'http://www.hooray.com';
-      this.color = '5';
-      var result = imageThumbnailTemplate(this.alt, this.url, this.color);
+      this.testData = testTrendingImageData;
+      var result = prepareThumbnailData(this.testData);
       var div = document.createElement('div');
       div.innerHTML = result;
       this.resultEl = div.firstChild;
+    });
+
+    it('generates a random color code', function () {
+      var code = this.resultEl.dataset.color;
+      var isValidCode = (code === '1' || code ===  '2' || code === '3' || code === '4' );
+      expect(isValidCode).to.eq(true);
     });
 
     it('creates a template for an image thumbnail', function () {
@@ -21,14 +25,16 @@ describe('script', function () {
       expect(this.resultEl.getElementsByTagName('img').length).to.eq(1);
     });
 
-    it('sets the color data attribute', function () {
-      expect(this.resultEl.dataset.color).to.eq(this.color);
+    it('generates alt text', function () {
+      var image = this.resultEl.getElementsByTagName('img')[0];
+      var expectedCaption = 'Thumbnail of trending gif: justin-lol-laughing-michael-jordon';
+      expect(image.alt).to.eq(expectedCaption);
     });
 
-    it('formats the image data', function () {
+    it('generates img src', function () {
       var image = this.resultEl.getElementsByTagName('img')[0];
-      expect(image.alt).to.eq(this.alt);
-      expect(image.src.includes(this.url)).to.eq(true);
+      var expectedUrl = 'https://media1.giphy.com/media/26FPxFeuN8UA7nqGQ/200_s.gif';
+      expect(image.src).to.eq(expectedUrl);
     });
   });
 });
