@@ -34,7 +34,8 @@
 
   function formatAlt(slug) {
     var splitSlug = slug.split(/-[^-]*$/);
-    var formattedAltText = 'Thumbnail of trending gif: ' + splitSlug[0];
+    var slugText = splitSlug[0]
+    var formattedAltText = 'Thumbnail: ' + splitSlug[0];
     return formattedAltText;
   }
 
