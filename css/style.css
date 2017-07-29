@@ -21,19 +21,18 @@ img {
 .image-thumbnail-container {
   border: 1px solid #eeeeee;
   float: left;
+  line-height: 200px;
   padding: 20px;
   text-align: center;
   width: 25%;
 }
 
-@media screen and (max-width:1000px) {
-  .image-thumbnail-container {
-    width: 33.3%;
-  }
+.image-thumbnail-container img {
+  vertical-align: middle;
 }
 
 @media screen and (max-width:800px) {
-  .image-thumbnail-container{
+  .image-thumbnail-container {
     width: 50%;
   }
 }
