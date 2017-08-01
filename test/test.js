@@ -27,7 +27,7 @@ describe('script', function () {
 
     it('generates alt text', function () {
       var image = this.resultEl.getElementsByTagName('img')[0];
-      var expectedCaption = 'Thumbnail of trending gif: justin-lol-laughing-michael-jordon';
+      var expectedCaption = 'Thumbnail: justin-lol-laughing-michael-jordon';
       expect(image.alt).to.eq(expectedCaption);
     });
 
