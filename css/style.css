@@ -7,11 +7,33 @@ body {
   background-color: #eeeeee;
 }
 
+body.lightbox-mode {
+  background: rgba(0,0,0,0.85);
+}
+
 #image-grid-container {
   margin: 0px auto;
   max-width: 1300px;
   overflow: hidden;
   padding: 10px 20px;
+}
+
+.lightbox {
+  background: rgba(0,0,0,0.85);
+  height: 100%;
+  left: 0;
+  position: fixed;
+  text-align: center;
+  top: 0;
+  width: 100%;
+  z-index: 2;
+}
+
+.lightbox img {
+  border: 3px solid white;
+  margin-top: 10px;
+  max-height: 100%;
+  max-width: 90%;
 }
 
 .image-thumbnail-container {
