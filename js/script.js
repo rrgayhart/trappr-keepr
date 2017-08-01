@@ -43,12 +43,14 @@
     var colorCode = Math.floor(Math.random() * (4 - 1 + 1)) + 1;
     var stillUrl = imgData.images.fixed_height_still.url;
     var caption = formatAlt(imgData.slug);
-    return imageThumbnailTemplate(caption, stillUrl, colorCode);
+    var lightboxUrl = imgData.images.original.url;
+
+    return imageThumbnailTemplate(caption, stillUrl, lightboxUrl, colorCode);
   }
 
-  function imageThumbnailTemplate(alt, url, color) {
+  function imageThumbnailTemplate(alt, url, lightboxUrl, color) {
     var classList = 'class=\"image-thumbnail-container\"';
-    var dataAttributes = 'data-color=\n"' + color + '\"';
+    var dataAttributes = 'data-color=\n"' + color + '\"' + 'data-original=\n"' + lightboxUrl + '\"';
     var altText =  'alt=\"' + alt + '\"';
     var urlText = 'src=\"' + url + '\"';
     return '<div ' + classList + ' ' + dataAttributes + '>' +

@@ -20,6 +20,12 @@ describe('script', function () {
       expect(isValidCode).to.eq(true);
     });
 
+    it('stores the original image link', function () {
+      var originalUrl = this.resultEl.dataset.original;
+      var expectedResult = 'https://media1.giphy.com/media/26FPxFeuN8UA7nqGQ/giphy.gif';
+      expect(originalUrl).to.eq(expectedResult);
+    });
+
     it('creates a template for an image thumbnail', function () {
       expect(this.resultEl.tagName).to.eq('DIV');
       expect(this.resultEl.getElementsByTagName('img').length).to.eq(1);
