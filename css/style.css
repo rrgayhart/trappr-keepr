@@ -71,12 +71,6 @@ button.nav:hover {
 }
 
 @media screen and (max-width:800px) {
-  .image-thumbnail-container {
-    width: 50%;
-  }
-}
-
-@media screen and (max-width:400px) {
   .lightbox h2 {
     margin: 0;
   }
@@ -85,6 +79,12 @@ button.nav:hover {
     width: 30%;
     font-size: 45px;
   }
+  .image-thumbnail-container {
+    width: 50%;
+  }
+}
+
+@media screen and (max-width:400px) {
   .image-thumbnail-container {
     padding: 10px;
     width: 100%;
