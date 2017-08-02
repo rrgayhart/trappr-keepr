@@ -11,6 +11,23 @@ body.lightbox-mode {
   background: rgba(0,0,0,0.85);
 }
 
+.lightbox h2 {
+  color: white;
+}
+
+button.nav {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 80px;
+  margin: 0 20px;
+  vertical-align: middle;
+}
+
+button.nav:hover {
+  background: rgba(222,222,222,0.15);
+}
+
 #image-grid-container {
   margin: 0px auto;
   max-width: 1300px;
