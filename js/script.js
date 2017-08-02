@@ -10,9 +10,9 @@
   function handleGridClick(event) {
     var target = event.target;
     if (target.tagName === 'IMG') { target = target.parentElement; }
-    if (target.className === 'image-thumbnail-container') { addLightbox(target); }
-    if (target.className === 'lightbox' || target.className === 'lightbox-nav-bar') { clearLightbox(); }
-    if (target.tagName === 'BUTTON') { navigateImages(target); }
+    if (target.className === 'image-thumbnail-container') { return addLightbox(target); }
+    if (target.tagName === 'BUTTON') { return navigateImages(target); }
+    clearLightbox();
   }
 
   function pullData() {
