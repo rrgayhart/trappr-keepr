@@ -27,8 +27,8 @@ describe('script', function () {
       expect(originalUrl).to.eq(expectedResult);
     });
 
-    it('stores the slug', function () {
-      var originalUrl = this.resultEl.dataset.slug;
+    it('sets the id to the slug', function () {
+      var originalUrl = this.resultEl.id;
       var expectedResult = 'justin-lol-laughing-michael-jordon-26FPxFeuN8UA7nqGQ';
       expect(originalUrl).to.eq(expectedResult);
     });
@@ -79,6 +79,12 @@ describe('script', function () {
       var image = this.resultEl.getElementsByTagName('img')[0];
       var expectedCaption = 'Gif: justin-lol-laughing-michael-jordon';
       expect(image.alt).to.eq(expectedCaption);
+    });
+
+    it('stores the original id data', function () {
+      var slug = this.resultEl.dataset.slug;
+      var expectedSlug = 'justin-lol-laughing-michael-jordon-26FPxFeuN8UA7nqGQ';
+      expect(slug).to.eq(expectedSlug);
     });
   });
 });

@@ -1,18 +1,18 @@
 (function () {
   if (window.trapprKeeprTestExport) { return exportTestedFunction(); }
-  var grid = document.getElementById('image-grid-container');
   setEventListeners();
   pullData();
 
   function setEventListeners() {
-    grid.addEventListener('click', handleGridClick, false);
+    document.body.addEventListener('click', handleGridClick, false);
   }
 
   function handleGridClick(event) {
     var target = event.target;
     if (target.tagName === 'IMG') { target = target.parentElement; }
     if (target.className === 'image-thumbnail-container') { addLightbox(target); }
-    if (target.className === 'lightbox') { clearLightbox(); }
+    if (target.className === 'lightbox' || target.className === 'lightbox-nav-bar') { clearLightbox(); }
+    if (target.tagName === 'BUTTON') { navigateImages(target); }
   }
 
   function pullData() {
@@ -30,6 +30,24 @@
     xhr.send();
   }
 
+  function navigateImages(target) {
+    var lightboxEl = document.getElementsByClassName('lightbox')[0];
+    var currentId = lightboxEl.dataset.slug;
+    var thumbnail = document.getElementById(currentId);
+    var buttonClass = target.className;
+    var nextThumbnail = getNextImage(buttonClass, thumbnail);
+    clearLightbox();
+    addLightbox(nextThumbnail);
+  }
+
+  function getNextImage(buttonClass, thumbnail) {
+    var grid = document.getElementById('image-grid-container');
+    if (buttonClass.includes('next')) {
+      return thumbnail.nextElementSibling || grid.firstElementChild;
+    }
+    return thumbnail.previousElementSibling || grid.lastElementChild;
+  }
+
   function fallbackToSampleData(e) {
     console.error(e); // eslint-disable-line no-console
     populateThumbnails(window.sampleData);
@@ -37,7 +55,7 @@
 
   function addLightbox(target) {
     var lightboxString = prepareLightboxData(target);
-    prependGridContainer(lightboxString);
+    document.body.insertAdjacentHTML('afterbegin', lightboxString);
     document.body.classList.add('lightbox-mode');
   }
 
@@ -67,30 +85,47 @@
 
   function imageThumbnailTemplate(d) {
     var classList = 'class=\"image-thumbnail-container\"';
+    var id = 'id=\"' + d.slug + '\"';
     var dataAttributes = 'data-color=\n"' + d.colorCode + '\"' +
-                         'data-original=\n"' + d.lightboxUrl + '\"' +
-                         'data-slug=\n"' + d.slug + '\"';
+                         'data-original=\n"' + d.lightboxUrl + '\"';
     var altText =  'alt=\"' + d.alt + '\"';
     var urlText = 'src=\"' + d.stillUrl + '\"';
-    return '<div ' + classList + ' ' + dataAttributes + '>' +
+    return '<div ' + id + classList + ' ' + dataAttributes + '>' +
              '<img ' + altText + ' ' + urlText + '>' +
            '</div>';
   }
 
   function prepareLightboxData(target) {
-    var url = target.dataset.original;
-    var alt = formatAlt('Gif', target.dataset.slug);
-    return lightboxTemplate(url, alt);
+    var imgData = {
+      url: target.dataset.original,
+      alt: formatAlt('Gif', target.id),
+      slug: target.id
+    };
+    return lightboxTemplate(imgData);
   }
 
-  function lightboxTemplate(originalUrl, alt) {
+  function lightboxTemplate(imgData) {
     var classList = 'class=\"lightbox\"';
-    var altText =  'alt=\"' + alt + '\"';
-    var urlText = 'src=\"' + originalUrl + '\"';
-    return '<div ' + classList + '>' + '<img ' + altText + ' ' + urlText + '></div>';
+    var img = lightboxImgTemplate(imgData);
+    var dataAttributes = 'data-slug=\n"' + imgData.slug + '\"';
+    return '<div ' + classList + dataAttributes + '>'
+            + '<div class=\'lightbox-nav-bar\'><button class=\'prev nav\'> < </button>'
+            + '<button class=\'next nav\'> > </button></div>'
+            + '<h2>'
+            + imgData.alt
+            + '</h2>'
+            + img
+            + '</div>';
+  }
+
+  function lightboxImgTemplate(imgData) {
+    var altText =  'alt=\"' + imgData.alt + '\"';
+    var urlText = 'src=\"' + imgData.url + '\"';
+    return '<img ' + altText + ' ' + urlText + '>';
   }
 
   function prependGridContainer(htmlString) {
+    var grid = document.getElementById('image-grid-container');
     grid.insertAdjacentHTML('afterbegin', htmlString);
   }
 
